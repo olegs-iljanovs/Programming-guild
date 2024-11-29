@@ -1,10 +1,13 @@
+# Sort function
 def sort_criteria(e):
     return e["sales"]
+# Main function for report generation of top performance
 def generate_sales_report (data, n):
     data.sort(key=sort_criteria, reverse = True)
     performers = []
-    for i in range(n):
-        performers.append(data[i])
+    if data:
+        for i in range(n):
+            performers.append(data[i])
     return performers
 
 
@@ -23,5 +26,10 @@ sales_data = [
     {"name": "Laura", "sales": 4700.00}
 ]
 
-performers = generate_sales_report(sales_data, 4)
-print(performers)
+performers = generate_sales_report(sales_data, 3)
+
+if performers:
+    for i in performers:
+       print(f"Name is {i['name']}, Sales of the month: {i['sales']}")
+else:
+    print("List is empty.")
