@@ -6,7 +6,7 @@ def sales_report(sales_data, top_n):
     for n, _ in enumerate(sales_data):
         if n == top_n:
             break
-        top_performers += f"{n+1}. {sales_data[n].get("name")} - ${sales_data[n].get("sales")}\n"
+        top_performers += f'{n+1}. {sales_data[n].get("name")} - ${sales_data[n].get("sales")}\n'
         
     return top_performers
 
