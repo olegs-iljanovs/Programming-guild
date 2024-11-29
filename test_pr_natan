@@ -1,3 +1,27 @@
-################
-# Hello, Natan #
-################
+def sort_criteria(e):
+    return e["sales"]
+def generate_sales_report (data, n):
+    data.sort(key=sort_criteria, reverse = True)
+    performers = []
+    for i in range(n):
+        performers.append(data[i])
+    return performers
+
+
+sales_data = [
+    {"name": "Alice", "sales": 3500.75},
+    {"name": "Bob", "sales": 2000.50},
+    {"name": "Charlie", "sales": 5000.00},
+    {"name": "David", "sales": 4200.00},
+    {"name": "Eva", "sales": 3000.00},
+    {"name": "Frank", "sales": 2800.00},
+    {"name": "Grace", "sales": 3600.25},
+    {"name": "Hannah", "sales": 4000.50},
+    {"name": "Ian", "sales": 4500.75},
+    {"name": "Judy", "sales": 3900.00},
+    {"name": "Kevin", "sales": 2500.00},
+    {"name": "Laura", "sales": 4700.00}
+]
+
+performers = generate_sales_report(sales_data, 4)
+print(performers)
