@@ -10,7 +10,7 @@ def generate_sales_report (data, n):
             performers.append(data[i])
     return performers
 
-
+# List of employee and performance
 sales_data = [
     {"name": "Alice", "sales": 3500.75},
     {"name": "Bob", "sales": 2000.50},
