@@ -3,9 +3,11 @@ def sales_report(sales_data, top_n):
     sales_data.sort(reverse = True, key=lambda person: person.get("sales")) #sorting list based on sales
 
     #filling output string
-    for n in range(top_n):
+    for n, _ in enumerate(sales_data):
+        if n == top_n:
+            break
         top_performers += f"{n+1}. {sales_data[n].get("name")} - ${sales_data[n].get("sales")}\n"
-
+        
     return top_performers
 
 #data for testing
@@ -17,5 +19,5 @@ def sales_report(sales_data, top_n):
 # {"name": "David", "sales": 4200.00},
 # {"name": "Eva", "sales": 3000.00}
 #  ]
-# a = sales_report(sales_data, 3)
+# a = sales_report(sales_data, 10)
 # print(a)
