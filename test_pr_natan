@@ -1,6 +1,9 @@
+from statistics import mean
+
 # Sort function
 def sort_criteria(e):
     return e["sales"]
+
 # Main function for report generation of top performance
 def generate_sales_report (data, n):
     data.sort(key=sort_criteria, reverse = True)
@@ -9,6 +12,17 @@ def generate_sales_report (data, n):
         for i in range(n):
             performers.append(data[i])
     return performers
+
+# Valid data generation function
+def generate_valid_data(data):
+    valid_data = [obj for obj in data if "name" in obj]
+
+    for entry in valid_data:
+        if not "sales" in entry:
+            entry["sales"] = average
+        elif type(entry["sales"]) is not float:
+            entry["sales"] = average
+    return valid_data
 
 # List of employee and performance
 sales_data = [
@@ -23,13 +37,28 @@ sales_data = [
     {"name": "Ian", "sales": 4500.75},
     {"name": "Judy", "sales": 3900.00},
     {"name": "Kevin", "sales": 2500.00},
-    {"name": "Laura", "sales": 4700.00}
+    {"name": "Laura", "sales": "4700.00"},
+    {"name": "Oleg"},
+    {}
 ]
 
-performers = generate_sales_report(sales_data, 3)
+try:
+    # Statistical mean calculation
+    sales = [obj["sales"] for obj in sales_data if "sales" in obj and type(obj["sales"]) is float]
+    average = mean(sales)
 
-if performers:
-    for i in performers:
-       print(f"Name is {i['name']}, Sales of the month: {i['sales']}")
-else:
-    print("List is empty.")
+    # Valid data generation
+    valid_sales_data = generate_valid_data(sales_data) 
+    print(valid_sales_data)
+
+    # Calculate Top performers
+    performers = generate_sales_report(valid_sales_data, 3)
+
+    # Output
+    if performers:
+        for i in performers:
+            print(f"Name is {i['name']}, Sales of the month: {i['sales']}")
+    else:
+        print("List is empty.")
+except Exception as e:
+    print("Отличная работа, Олег! Ошибка:", e)
