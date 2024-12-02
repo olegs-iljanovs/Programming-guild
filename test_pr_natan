@@ -8,6 +8,8 @@ def sort_criteria(e):
 def generate_sales_report (data, n):
     data.sort(key=sort_criteria, reverse = True)
     performers = []
+    if n > len(data):
+        n = len(data)
     if data:
         for i in range(n):
             performers.append(data[i])
@@ -52,7 +54,7 @@ try:
     valid_sales_data = generate_valid_data(sales_data) 
 
     # Calculate Top performers
-    performers = generate_sales_report(valid_sales_data, 3)
+    performers = generate_sales_report(valid_sales_data, 20)
 
     # Output
     if performers:
