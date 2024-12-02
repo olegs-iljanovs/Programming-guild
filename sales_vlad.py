@@ -4,9 +4,17 @@ sales_data = []
 #menu
 while True:
     name = input("Enter name: ")
-    sales = float(input("Enter sales: "))
+    sales = input("Enter sales: ")
 
-    sales_data.append({"name":name,"sales":sales})
+    #input validation
+    try:
+        sales = float(sales)
+    except:
+        print("input error, please enter number in sales field")
+        continue
+    
+    #populate data
+    sales_data.append({"name":name,"sales":float(sales)})
 
     #exit from menu
     if input("Press enter to finish, or any other symbol to continue: ") == "": break
