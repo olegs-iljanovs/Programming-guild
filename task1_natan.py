@@ -42,12 +42,12 @@ sales_data = [
 try:
     # Statistical mean calculation
     sales = [obj["sales"] for obj in sales_data if "sales" in obj and type(obj["sales"]) is float]
-    average = mean(sales)
+    average = round(mean(sales),2)
     # Valid data generation
     valid_sales_data = generate_valid_data(sales_data) 
 
     # Calculate Top performers
-    performers = generate_sales_report(valid_sales_data, 3)
+    performers = generate_sales_report(valid_sales_data, 20)
 
     # Output
     if performers:
