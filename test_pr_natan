@@ -49,7 +49,6 @@ try:
 
     # Valid data generation
     valid_sales_data = generate_valid_data(sales_data) 
-    print(valid_sales_data)
 
     # Calculate Top performers
     performers = generate_sales_report(valid_sales_data, 3)
