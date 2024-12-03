@@ -1,13 +1,15 @@
 def generate_sales_report(sales_data, top_N):
     # sort by sales- desc order
-    sorted_data = sorted(sales_data, key=lambda item: item["sales"], reverse=True)
+    # use dict.get and setting default value to $0
+    sorted_data = sorted(sales_data, key=lambda item: item.get("sales", 0), reverse=True)
     
     # top N performers
     report = []
     count = 0  
     for performer in sorted_data:
         if count < top_N: 
-            report.append(performer["name"] + ": $" + str(performer["sales"]))
+            sales = performer.get("sales", 0)
+            report.append(performer["name"] + ": $" + str(sales))
             count += 1
         else:
             break
@@ -19,9 +21,9 @@ def generate_sales_report(sales_data, top_N):
 top_N = 3
 
 sales_data = [
-    {"name": "Alice", "sales": 3500.75},
-    {"name": "Bob", "sales": 2000.50},
-    {"name": "Charlie", "sales": 5000.00},
+    {"name": "Alice"},
+    {"name": "Bob"},
+    {"name": "Charlie"},
     {"name": "David", "sales": 4200.00},
     {"name": "Eva", "sales": 3000.00}
 ]
@@ -33,4 +35,3 @@ report = generate_sales_report(sales_data, top_N)
 print("Top {} Performers:".format(top_N))
 for result in report:
     print(result)
-
