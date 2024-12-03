@@ -69,41 +69,41 @@ class Interface:
             print(tabulate(data, headers=headers, tablefmt="grid"))
         else:
             print("Database is empty.")
+if __name__ == "__main__":
+    database = load_session()
 
-database = load_session()
+    product_ids = [obj.id for obj in database]
 
-product_ids = [obj.id for obj in database]
+    if product_ids:
+        new_id = max(product_ids)
+    else:
+        new_id = 0
 
-if product_ids:
-    new_id = max(product_ids)
-else:
-    new_id = 0
+    interface = Interface(new_id, database)
 
-interface = Interface(new_id, database)
+    flag = 1
 
-flag = 1
+    while flag == 1:
+        try:
+            operations = {0:interface.show_products, 1: interface.add_product,
+                        2: interface.update_product, 3: interface.delete_product}
+            
+            print("Hello, this is company interactions with products interface.")
+            operation = int(input("Press: 0) Show Product; 1) Add Product; 2) Update Product; 3) Delete Product; "))
+            
+            operation = operations.get(operation)
 
-while flag == 1:
-    try:
-        operations = {0:interface.show_products, 1: interface.add_product,
-                      2: interface.update_product, 3: interface.delete_product}
+            if operation:
+                operation()
+            else:
+                print("Invalid input.")
+
+        except Exception as e:
+            print("Invalid input. Details: ", e)
         
-        print("Hello, this is company interactions with products interface.")
-        operation = int(input("Press: 0) Show Product; 1) Add Product; 2) Update Product; 3) Delete Product; "))
+        try:
+            flag = int(input("Would you like to continue? Press '1' to continue: "))
+        except:
+            break
         
-        operation = operations.get(operation)
-
-        if operation:
-            operation()
-        else:
-            print("Invalid input.")
-
-    except Exception as e:
-        print("Invalid input. Details: ", e)
-    
-    try:
-        flag = int(input("Would you like to continue? Press '1' to continue: "))
-    except:
-        break
-    
-save_session(interface.database)
+    save_session(interface.database)
