@@ -26,10 +26,11 @@ class Product:
         self.quan = quan
 
 def addProduct():
-    id = int(input("Enter the id of the product."))
+    global new_id
+    new_id += 1
     name = str(input("Enter the name of the product."))
     quan = int(input("Enter the quantity of the product."))
-    new_product = Product(id, name, quan)
+    new_product = Product(new_id, name, quan)
     database.append(new_product)
     showProducts(database)
 
@@ -61,6 +62,14 @@ def showProducts(database):
         print("Database is empty.")
 
 database = load_session()
+
+product_ids = [obj.id for obj in database]
+
+if product_ids:
+    new_id = max(product_ids)
+else:
+    new_id = 0
+
 ans = 1
 
 while ans==1:
