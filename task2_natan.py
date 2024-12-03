@@ -76,9 +76,9 @@ if __name__ == "__main__":
 
     interface = Interface(new_product_id, database)
 
-    flag = 1
+    is_repeat = 1
 
-    while flag == 1:
+    while is_repeat == 1:
         try:
             operations = {0:interface.show_products, 1: interface.add_product,
                           2: interface.update_product, 3: interface.delete_product}
@@ -91,14 +91,15 @@ if __name__ == "__main__":
             if operation:
                 operation()
             else:
-                print("Invalproduct_id input.")
+                print("Invalid input.")
 
         except Exception as e:
-            print("Invalproduct_id input. Details: ", e)
+            print("Invalid input. Details: ", e)
         
         try:
-            flag = int(input("Would you like to continue? Press '1' to continue: "))
-        except:
+            is_repeat = int(input("Would you like to continue? Press '1' to continue: "))
+        except ValueError as v:
+            print("Invalid input. Details: ", v)
             break
         
     save_session(interface.database)
