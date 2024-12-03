@@ -17,44 +17,39 @@ def load_session():
         return []
 
 class Product:
-    id = 0
-    name = ''
-    quan = 0
-    def __init__(self, id, name, quan):
-        self.id = id
+
+    def __init__(self, product_id, name, quantity):
+        self.product_id = product_id
         self.name = name
-        self.quan = quan
+        self.quantity = quantity
 
 class Interface:
 
-    new_id = 0
-    database = []
-
-    def __init__(self, new_id, database):
-        self.new_id = new_id
+    def __init__(self, new_product_id, database):
+        self.new_product_id = new_product_id
         self.database = database
 
     def add_product(self):
-        self.new_id += 1
+        self.new_product_id += 1
         name = str(input("Enter the name of the product."))
-        quan = int(input("Enter the quantity of the product."))
-        new_product = Product(self.new_id, name, quan)
+        quantity = int(input("Enter the quantitytity of the product."))
+        new_product = Product(self.new_product_id, name, quantity)
         self.database.append(new_product)
         self.show_products()
 
     def update_product(self):
-        id = int(input("Enter the id of the product."))
-        quan = int(input("Enter the quantity of the product."))
-        current_product = next(iter([obj for obj in self.database if getattr(obj, "id") == id]), None)
+        product_id = int(input("Enter the product_id of the product."))
+        quantity = int(input("Enter the quantitytity of the product."))
+        current_product = next(iter([obj for obj in self.database if getattr(obj, "product_id") == product_id]), None)
         if current_product:
-            current_product.quan = quan
+            current_product.quantity = quantity
         else:
             print("Product was not found")
         self.show_products()
 
     def delete_product(self):
-        id = int(input("Enter the id of the product."))
-        current_product = next(iter([obj for obj in self.database if getattr(obj, "id") == id]), None)
+        product_id = int(input("Enter the product_id of the product."))
+        current_product = next(iter([obj for obj in self.database if getattr(obj, "product_id") == product_id]), None)
         if current_product:
             self.database.remove(current_product)
         else:
@@ -63,8 +58,8 @@ class Interface:
 
     def show_products(self):
 
-        headers = ["ID", "Name", "Quantity"]
-        data = [[product.id, product.name, product.quan] for product in self.database]
+        headers = ["product_id", "Name", "quantitytity"]
+        data = [[product.product_id, product.name, product.quantity] for product in self.database]
         if data:
             print(tabulate(data, headers=headers, tablefmt="grid"))
         else:
@@ -72,21 +67,21 @@ class Interface:
 if __name__ == "__main__":
     database = load_session()
 
-    product_ids = [obj.id for obj in database]
+    product_ids = [obj.product_id for obj in database]
 
     if product_ids:
-        new_id = max(product_ids)
+        new_product_id = max(product_ids)
     else:
-        new_id = 0
+        new_product_id = 0
 
-    interface = Interface(new_id, database)
+    interface = Interface(new_product_id, database)
 
     flag = 1
 
     while flag == 1:
         try:
             operations = {0:interface.show_products, 1: interface.add_product,
-                        2: interface.update_product, 3: interface.delete_product}
+                          2: interface.update_product, 3: interface.delete_product}
             
             print("Hello, this is company interactions with products interface.")
             operation = int(input("Press: 0) Show Product; 1) Add Product; 2) Update Product; 3) Delete Product; "))
@@ -96,10 +91,10 @@ if __name__ == "__main__":
             if operation:
                 operation()
             else:
-                print("Invalid input.")
+                print("Invalproduct_id input.")
 
         except Exception as e:
-            print("Invalid input. Details: ", e)
+            print("Invalproduct_id input. Details: ", e)
         
         try:
             flag = int(input("Would you like to continue? Press '1' to continue: "))
