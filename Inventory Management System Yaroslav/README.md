@@ -1,9 +1,12 @@
 # HOW TO RUN IT?
 
 Well, thats easy:
-1. Activate virtual environment in console:
+1. Create a virtual enenvironment with comand ```py -m venv env``` in console
+2. Activate virtual environment in console:
 ```env\Scripts\activate```
-2. Run uvicorn server using comand:
+3. Install dependents:
+```pip install fastapi uvicorn```
+4. Run uvicorn server using comand:
 ```uvicorn main:app --reload```
 
 # AND HOW TO TEST IT?
