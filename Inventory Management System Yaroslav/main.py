@@ -3,6 +3,9 @@ from pydantic import BaseModel
 from random import randrange
 
 app = FastAPI()
+inventory = [
+    {"id": 1, "name": "Apple", "quantity": 2},
+]
 
 class Product(BaseModel):
     name: str
@@ -13,9 +16,6 @@ def find_index_post(id):
         if p["id"] == id:
             return i
 
-inventory = [
-    {"id": 1, "name": "Apple", "quantity": 2},
-]
 
 @app.get("/inventory")
 def get_inventory():
@@ -33,11 +33,11 @@ def create_post(item: Product):
 
 @app.delete("/inventory/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int):
-    indx = find_index_post(id)
-    if indx is None:
+    index = find_index_post(id)
+    if not index:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Product with ID {id} does not exist")
-    inventory.pop(indx)
+    inventory.pop(index)
     return {"message": f"Product with ID {id} successfully deleted"}
 
 @app.put("/posts/{id}")
