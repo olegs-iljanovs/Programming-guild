@@ -1,27 +1,52 @@
-from os import system
-from Inventory import Inventory
+from fastapi import FastAPI, HTTPException, status, Query, Response
+from pydantic import BaseModel
+from random import randrange
 
-if __name__ == "__main__":
-    #item = Product()
-    inventory = Inventory()
-    while True:
-        #system("cls")
-        print("1) View inventory")
-        print("2) Add item to inventory")
-        print("3) Update item")
-        print("4) Delete item")
-        print("5) Exit")
+app = FastAPI()
 
-        x = int(input())
-        if x == 1:
-            inventory.print_table()
-        elif x == 2:
-            data = input("Please input data like: id, name, quantity\n")
-            inventory.add_item()
-        elif x == 3:
-            inventory.update_item()
-        elif x == 4:
-            inventory.delete_item()
-        elif x == 5:
-            break
-    
+class Product(BaseModel):
+    name: str
+    quantity: int
+
+def find_index_post(id):
+    for i, p in enumerate(inventory):
+        if p["id"] == id:
+            return i
+
+inventory = [
+    {"id": 1, "name": "Apple", "quantity": 2},
+]
+
+@app.get("/inventory")
+def get_inventory():
+    return inventory
+
+@app.post("/product", status_code=status.HTTP_201_CREATED)
+def create_post(item: Product):
+    item_dict = item.dict()
+    if item_dict["quantity"] <= 0:
+        raise HTTPException(status_code=418,
+                            detail=f"Quantity can't be below 1")
+    item_dict["id"] = randrange(0, 1000000)
+    inventory.append(item_dict)
+    return {"data": item_dict}
+
+@app.delete("/inventory/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int):
+    indx = find_index_post(id)
+    if indx is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Product with ID {id} does not exist")
+    inventory.pop(indx)
+    return {"message": f"Product with ID {id} successfully deleted"}
+
+@app.put("/posts/{id}")
+def update_post(id: int, item: Product):
+    indx = find_index_post(id)
+    if indx is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Product with ID {id} does not exist")
+    item_dict = item.dict()
+    item_dict["id"] = id
+    inventory[indx] = item_dict
+    return {"message": f"Product with ID {id} successfully updated"}
