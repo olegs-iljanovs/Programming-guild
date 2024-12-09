@@ -35,35 +35,33 @@ class Product:
         self.quantity = quantity
 
 def menu():
+
     while True:
         action = input('Please select the action to do:\n0. Perfom Unit tests\n1. Add new product\n2. Update product\n3. Delete product\nOr Enter to exit\n')
-
+        ACTIONS_FUNCS_MAPPING = {UNIT_TESTS : perform_unit_tests,
+                                ADD_ID : add_product,
+                                UPDATE_ID : update_product,
+                                DELETE_ID : delete_product}
         #exit     
         if action == "":
             break
 
         action = integer_validation(action)
         if action in ACTIONS_LIST:
-            #add
-            if action == ADD_ID:
-                add_product()
-            #update
-            elif action == UPDATE_ID:
-                update_product()
-            #delete
-            elif action == DELETE_ID:
-                delete_product()
-            #unit tests
-            elif action == UNIT_TESTS:
-                perform_unit_tests()
+            
+            #action selecting
+            ACTIONS_FUNCS_MAPPING[action]()
 
         #error in action input
         else:
             print("!ERROR: Please select only provided options\n")
         continue
 def add_product():
-    new_product = Product(input('Adding Product...\nPlease enter new product name:\n'),input('Please enter new id:\n'),input('Please enter new quantity:\n'))
-    name = new_product.name
+    name = input('Adding Product...\nPlease enter new product name:\n')
+    prod_id = input('Please enter new id:\n')
+    quantity = input('Please enter new quantity:\n')
+    new_product = Product(name, prod_id, quantity)
+    
     prod_id = integer_validation(new_product.prod_id)
     quantity = integer_validation(new_product.quantity)
 
@@ -80,19 +78,21 @@ def add_product():
             print('!ERROR: Product with provided id is already exist, please add product with another id.\n')
 def update_product():
     prod_id = integer_validation(input('Enter the id of the product to update:\n'))
-    print(prod_id)
-    if prod_id:
-        index = next((position for position, product in enumerate(PRODUCTS_LIST) if product["id"] == prod_id), None)
 
-        if index != None:
-            quantity = integer_validation(input('Product with provided id has been found\nPlease enter new quantity to update:\n'))
-            if quantity != None:
-                old_val = PRODUCTS_LIST[index]['quantity']
-                PRODUCTS_LIST[index]['quantity'] = quantity
-                print("Product with id: '{}' has been successfully updated\nPrevious value: '{}' | New value:'{}'".format(prod_id, old_val, quantity))
-                print_cart(PRODUCTS_LIST)
-        else:
-            print('!ERROR: There is no product with provided id')
+    if not prod_id:
+        return
+
+    index = next((position for position, product in enumerate(PRODUCTS_LIST) if product["id"] == prod_id), None)
+
+    if index != None:
+        quantity = integer_validation(input('Product with provided id has been found\nPlease enter new quantity to update:\n'))
+        if quantity != None:
+            old_val = PRODUCTS_LIST[index]['quantity']
+            PRODUCTS_LIST[index]['quantity'] = quantity
+            print("Product with id: '{}' has been successfully updated\nPrevious value: '{}' | New value:'{}'".format(prod_id, old_val, quantity))
+            print_cart(PRODUCTS_LIST)
+    else:
+        print('!ERROR: There is no product with provided id')
 
 def delete_product():
     prod_id = integer_validation(input('Enter the id of the product to remove:\n'))
