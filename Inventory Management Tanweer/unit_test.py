@@ -1,5 +1,5 @@
 import unittest
-from inventory_management.py import Inventory
+from inventory_management import Inventory
 
 
 class InventoryTest(unittest.TestCase):
