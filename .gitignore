@@ -1,0 +1,13 @@
+# Environments
+.env
+.venv
+env/
+venv/
+**/env
+**/venv
+**/env/
+**/venv/
+
+# Ignore Python cache directories
+__pycache__/
+**/__pycache__/
