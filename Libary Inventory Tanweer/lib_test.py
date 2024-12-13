@@ -10,21 +10,21 @@ class TestLibrary(unittest.TestCase):
         ]
         self.library = Library(books_list=self.books)
 
-    def test_add_books(self):
-        self.library.add_books(4, "Brave New World", "Aldous Huxley")
+    def test_add_book(self):
+        self.library.add_book(4, "Brave New World", "Aldous Huxley")
         self.assertEqual(len(self.library.books), 4)
         self.assertEqual(self.library.books[-1]["title"], "Brave New World")
 
     def test_add_duplicate_books(self):
-        self.library.add_books(1, "Duplicate Book", "Author Name")
+        self.library.add_book(1, "Duplicate Book", "Author Name")
         self.assertEqual(len(self.library.books), 3)  
 
-    def test_borrow_books(self):
-        self.library.borrow_books(1)
+    def test_borrow_book(self):
+        self.library.borrow_book(1)
         self.assertFalse(self.library.books[0]["available"])
 
     def test_borrow_unavailable_book(self):
-        self.library.borrow_books(3)
+        self.library.borrow_book(3)
         self.assertFalse(self.library.books[2]["available"]) 
 
     def test_return_books(self):

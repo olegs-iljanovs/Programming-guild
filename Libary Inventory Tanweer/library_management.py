@@ -2,7 +2,7 @@ class Library:
     def __init__(self, books_list=None):
         self.books = books_list if books_list else []
 
-    def add_books(self, book_id, book_title, author_name):
+    def add_book(self, book_id, book_title, author_name):
         for book in self.books:
             if book.get("id") == book_id:
                 print("Book with ID {} already exists.".format(book_id))
@@ -11,7 +11,7 @@ class Library:
         print("Book '{}' by {} added successfully!".format(book_title, author_name, book_id))
 
 
-    def borrow_books(self, book_id):
+    def borrow_book(self, book_id):
         for book in self.books:
             if book.get("id") == book_id:
                 if book.get("available"):
@@ -24,28 +24,29 @@ class Library:
         print("Book with ID {} does not exist.".format(book_id))
 
     def return_book(self, book_id):
-        for book in self.books:
-            if book.get("id") == book_id:
-                if not book.get("available"):
-                    book["available"] = True
-                    print("Thank you for returning '{}' by {}.".format(book["title"], book["author"]))
-                else:
-                    print("'{}' is already available in the library.".format(book["title"]))
-                return
+        book = next((b for b in self.books if b.get("id") == book_id), None)
+        if not book:
+            print(f"Book with ID {book_id} does not exist.")
+            return False
+        if book["available"]:
+            print(f"'{book['title']}' is already available in the library.")
+            return False
+        book["available"] = True
+        print(f"Thank you for returning '{book['title']}' by {book['author']}.")
+        return True
 
-        print("Book with ID {} does not exist.".format(book_id))
 
     def view_available_books(self):
         available_books = [book for book in self.books if book.get("available")]
         if not available_books:
             print("No books are currently available.")
-        else:
-            print("Available Books:")
-            print("{:<10}{:<30}{:<20}".format("ID", "Title", "Author"))
-            print("-" * 60)
-            for book in available_books:
-                print("{:<10}{:<30}{:<20}".format(book["id"], book["title"], book["author"]))
-            print("-" * 60)
+            return
+        print("Available Books:")
+        print("{:<10}{:<30}{:<20}".format("ID", "Title", "Author"))
+        print("-" * 60)
+        for book in available_books:
+            print("{:<10}{:<30}{:<20}".format(book["id"], book["title"], book["author"]))
+        print("-" * 60)
 
 
 books = [
@@ -57,13 +58,13 @@ books = [
 library = Library(books_list=books)
 
 # add books
-library.add_books(4, "Brave New World", "Aldous Huxley")
-library.add_books(1, "Duplicate Book", "Author Name")  # duplicate ID
+library.add_book(4, "Brave New World", "Aldous Huxley")
+library.add_book(1, "Duplicate Book", "Author Name")  # duplicate ID
 
 # borrow books
-library.borrow_books(1)
-library.borrow_books(3)  # already borrowed
-library.borrow_books(5)  # invalid ID
+library.borrow_book(1)
+library.borrow_book(3)  # already borrowed
+library.borrow_book(5)  # invalid ID
 
 # return books
 library.return_book(1)
