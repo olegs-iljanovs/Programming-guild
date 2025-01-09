@@ -6,7 +6,7 @@ class Inventory:
     def __init__(self):
         self.inventory = []
 
-    #method to validate only integer user input
+    '''method to validate only integer user input'''
     def validate_input(self, input_message):
         input_num = None
         while True:
@@ -20,7 +20,7 @@ class Inventory:
                 continue
             return input_num
 
-    #method to add items to inventory and check if ID of new item is unique
+    '''method to add items to inventory and check if ID of new item is unique'''
     def add_item(self):
         item_id = self.validate_input("Enter ID for item that you want to add: ")
 
@@ -34,20 +34,20 @@ class Inventory:
         self.inventory.append({"ID": item_id, "Name": item_name, "Quantity": item_quantity})
         print("Item successfully added.")
 
-    #method to update item quantity by id
+    '''method to update item quantity by id'''
     def update_item(self):
         item_id = self.validate_input("Enter ID of item that you want to update: ")
         item_quantity = self.validate_input("Enter new quantity value: ")
 
         item_index = next((i for i, item in enumerate(self.inventory) if item["ID"] == item_id), None)
 
-        if item_index is not None or item_index == 0:
+        if item_index is not None:
             self.inventory[item_index]["Quantity"] = item_quantity
         else:
             print("Item not found in inventory.")
         print("Item successfully updated.")
 
-    #method to remove item from inventory by id   
+    '''method to remove item from inventory by id'''
     def remove_item_by_id(self):
         item_id = self.validate_input("Enter ID of item that you want to remove: ")
         
@@ -59,14 +59,14 @@ class Inventory:
             print("Item not found in inventory.")
         print("Item successfully removed.")
 
-    #shows inventory
+    '''shows inventory'''
     def show_inventory(self):
         if not self.inventory:
             print("Your inventory is empty.")
         else:
             print(tabulate(self.inventory, headers='keys'))
 
-    #main app menu 
+    '''main app menu'''
     def main_menu(self):
         while True:
             user_input = input(
